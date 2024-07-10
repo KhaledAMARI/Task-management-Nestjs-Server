@@ -1,11 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     abortOnError: false,
-    snapshot: true,
   });
-  await app.listen(3000);
+  const configService = app.get(ConfigService);
+  //whitelist: Automatically remove properties from the request payload that are not defined in the DTO. This ensures that only the validated properties are passed through.
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
+  await app.listen(configService.getOrThrow<string>('SERVER_PORT'));
 }
 bootstrap();

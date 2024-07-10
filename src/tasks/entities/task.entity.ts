@@ -1,17 +1,19 @@
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 export enum TaskStatus {
   PENDING = 'pending',
   IN_PROGRESS = 'in-progress',
   DONE = 'done',
 }
+
 @Entity()
 export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  //Make a unique title constraint
+  @Column({ unique: true })
   title: string;
 
   @Column()

@@ -3,7 +3,15 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './entities/task.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PageOptionsDto } from './dto/page-options.dto';
+import { PageMetaDto } from './dto/page-meta.dto';
+import { PageDto } from './dto/page.dto';
+import { GetTaskDto } from './dto/get-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -23,8 +31,19 @@ export class TasksService {
     }
   }
 
-  findAll() {
-    return this.taskRepository.find();
+  async getTasks(pageOptionsDto: PageOptionsDto): Promise<PageDto<GetTaskDto>> {
+    const queryBuilder = this.taskRepository.createQueryBuilder('task');
+
+    queryBuilder
+      .orderBy('task.created_at', pageOptionsDto.order)
+      .addOrderBy('task.status', pageOptionsDto.orderByStatus)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+
+    const result = await queryBuilder.getManyAndCount();
+    const [entities, itemCount] = result;
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageDto(entities, pageMetaDto);
   }
 
   async findOne(id: number) {
@@ -51,6 +70,6 @@ export class TasksService {
   async remove(id: number) {
     const task = await this.findOne(id);
     await this.taskRepository.delete({ id: task.id });
-    return { message: 'Task removed successfully!' }
+    return { message: 'Task removed successfully!' };
   }
 }

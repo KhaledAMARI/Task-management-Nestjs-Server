@@ -1,0 +1,13 @@
+CREATE TABLE Task (
+    id SERIAL PRIMARY KEY,  -- Primary Key with auto-increment
+    title VARCHAR(255) NOT NULL,  -- Task title
+    description TEXT,  -- Task description
+    status VARCHAR(50) NOT NULL,  -- Task status
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Creation timestamp
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- Update timestamp
+    user_id INT,  -- Foreign key to user table (assuming there's a User table)
+    UNIQUE (title)  -- Unique constraint on the title
+);
+
+-- Composite index on status and user_id
+CREATE INDEX idx_task_status_user_id ON Task(status, user_id);

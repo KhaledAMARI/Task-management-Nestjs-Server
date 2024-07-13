@@ -3,6 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { TasksModule } from './tasks/tasks.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -10,6 +12,8 @@ import { TasksModule } from './tasks/tasks.module';
       http: process.env.NODE_ENV !== 'production',
     }),
     TasksModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

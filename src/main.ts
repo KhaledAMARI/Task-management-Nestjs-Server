@@ -13,7 +13,12 @@ async function bootstrap() {
   //Set Swagger To test Api with Ui
   setupSwagger(app);
   //whitelist: Automatically remove properties from the request payload that are not defined in the DTO. This ensures that only the validated properties are passed through.
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.enableCors({
+    origin: '*', // Replace with the client URL you want to allow
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   await app.listen(configService.getOrThrow<string>('SERVER_PORT'));
 }
 bootstrap();

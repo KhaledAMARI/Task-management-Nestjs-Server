@@ -3,7 +3,6 @@ import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
 import { Order } from './interface';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 export class PageOptionsDto {
   @ApiProperty({ enum: Order, default: Order.ASC })
   @IsEnum(Order)

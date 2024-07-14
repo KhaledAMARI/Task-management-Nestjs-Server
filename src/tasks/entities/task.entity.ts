@@ -1,5 +1,10 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum TaskStatus {
   PENDING = 'pending',
@@ -39,4 +44,3 @@ export class Task {
   })
   updated_at: Date;
 }
-

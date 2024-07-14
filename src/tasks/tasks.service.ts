@@ -18,7 +18,7 @@ export class TasksService {
   constructor(
     @InjectRepository(Task)
     private taskRepository: Repository<Task>,
-  ) { }
+  ) {}
   async create(createTaskDto: CreateTaskDto) {
     try {
       const task = await this.taskRepository.create(createTaskDto);

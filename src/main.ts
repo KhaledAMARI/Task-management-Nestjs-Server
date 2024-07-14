@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { setupSwagger } from './docs/swagger.config';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     abortOnError: false,

@@ -18,6 +18,9 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
-  await app.listen(configService.getOrThrow<string>('SERVER_PORT'));
+  await app.listen(
+    configService.getOrThrow<string>('SERVER_PORT'),
+    configService.getOrThrow<string>('SERVER_HOST'),
+  );
 }
 bootstrap();

@@ -22,7 +22,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         database: configService.getOrThrow<string>('DB_NAME'),
         entities: [Task],
         // should not be used on production
-        synchronize: true,
+        synchronize: false,
         //To load every entity registered through the forFeature() method
         // autoLoadEntities: true,
       }),

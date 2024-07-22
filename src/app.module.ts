@@ -25,6 +25,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         synchronize: false,
         //To load every entity registered through the forFeature() method
         // autoLoadEntities: true,
+        migrations: ['dist/migrations/*{.ts,.js}'],
+        cli: {
+          migrationsDir: 'src/migration',
+        },
       }),
       inject: [ConfigService],
     }),

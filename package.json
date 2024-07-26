@@ -8,21 +8,21 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "npm run migration:create && npm run migration:create && nest start",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "execute-migration && node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:run": "npx typeorm migration:run",
-    "migration:generate": "npx typeorm migration:generate -n $npm_config_name",
-    "migration:create": "npx typeorm migration:create -n $npm_config_name",
-    "migration:revert": "npx typeorm migration:revert"
+    "typeorm": "npm run build && npx typeorm -d dist/src/database/typeorm.config.js",
+    "migration:create": "npx typeorm migration:create ./migrations/tasks",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "execute-migration": "npm run migration:create && npm run migration:generate -- migrations/migration && npm run build && npm run migration:run"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
